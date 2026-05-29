@@ -236,11 +236,26 @@
         height: clamp(330px, 54vh, 440px);
       }
       .hero-img {
-        transform: scale(1.24);
-        transform-origin: left bottom;
+        object-position: 24% bottom;
+        transform: scale(1.18);
+        transform-origin: 24% bottom;
       }
       .hero-content {
         padding-bottom: 2rem;
+      }
+    }
+    @media (max-width: 430px) {
+      .hero-img {
+        object-position: 35% bottom;
+        transform: scale(1.16);
+        transform-origin: 35% bottom;
+      }
+    }
+    @media (max-width: 360px) {
+      .hero-img {
+        object-position: 45% bottom;
+        transform: scale(1.1);
+        transform-origin: 45% bottom;
       }
     }
 
