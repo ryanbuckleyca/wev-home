@@ -230,6 +230,10 @@
       margin: 0 auto;
       padding: 3rem 1.5rem;
     }
+    .hero-copy {
+      width: fit-content;
+      max-width: min(100%, 36rem);
+    }
     .hero-eyebrow {
       display: inline-flex;
       align-items: center;
@@ -239,10 +243,11 @@
       text-transform: uppercase;
       color: var(--primary-tint);
       background: rgba(42, 42, 42, 0.42);
-      border: 1px solid rgba(254, 251, 247, 0.18);
+      border: 1px solid rgba(254, 251, 247, 0.28);
       border-radius: 999px;
       padding: 0.4rem 0.75rem;
       margin-bottom: 1rem;
+      text-shadow: 0 1px 8px rgba(42, 42, 42, 0.85);
     }
     .hero-headline {
       font-size: clamp(2.2rem, 5.5vw, 4rem);
@@ -251,6 +256,7 @@
       color: #fff;
       max-width: 16ch;
       letter-spacing: -0.025em;
+      text-shadow: 0 3px 18px rgba(42, 42, 42, 0.9);
     }
     .hero-headline .accent {
       color: var(--watercolor-lavender);
@@ -297,8 +303,8 @@
       font-weight: 600;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--primary-text);
-      background: var(--primary-tint);
+      color: var(--brand-accent-strong);
+      background: var(--brand-accent-tint);
       border-radius: 999px;
       padding: 0.35rem 0.7rem;
       margin-bottom: 1.5rem;
@@ -394,7 +400,7 @@
       font-weight: 700;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--primary-text);
+      color: var(--brand-accent-strong);
     }
     .value-title {
       font-size: 1rem;
@@ -486,7 +492,7 @@
       font-weight: 600;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--primary-text);
+      color: var(--brand-accent-strong);
       margin-bottom: 0.75rem;
     }
     .resource-heading {
@@ -533,11 +539,11 @@
     .mailto-note {
       margin-top: 1rem;
       font-size: 0.8125rem;
-      color: var(--text-tertiary);
+      color: var(--muted-foreground);
       line-height: 1.5;
     }
     .mailto-note a {
-      color: var(--primary-text);
+      color: var(--brand-accent-strong);
       text-decoration: underline;
       text-underline-offset: 2px;
     }
@@ -565,7 +571,7 @@
       font-weight: 600;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--primary-text);
+      color: var(--brand-accent-strong);
       margin-bottom: 0.4rem;
     }
     .contact-info-value {
@@ -574,7 +580,7 @@
       color: var(--foreground);
     }
     .contact-info-value a {
-      color: var(--primary-text);
+      color: var(--brand-accent-strong);
       text-decoration: underline;
       text-underline-offset: 2px;
     }
@@ -707,10 +713,12 @@
     >
     <div class="hero-overlay" aria-hidden="true"></div>
     <div class="hero-content">
-      <p class="hero-eyebrow">Social &amp; Solidarity Economy</p>
-      <h1 class="hero-headline">
-        Work that builds a <span class="accent">better world.</span>
-      </h1>
+      <div class="hero-copy">
+        <p class="hero-eyebrow">Social &amp; Solidarity Economy</p>
+        <h1 class="hero-headline">
+          Work that builds a <span class="accent">better world.</span>
+        </h1>
+      </div>
     </div>
   </header>
 
