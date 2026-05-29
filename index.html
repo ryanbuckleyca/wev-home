@@ -364,7 +364,7 @@
     /* ─── Hero ────────────────────────────────────────────────── */
     .hero {
       position: relative;
-      height: clamp(420px, 68vh, 660px);
+      height: 38rem;
       overflow: hidden;
       display: flex;
       align-items: flex-end;
@@ -431,29 +431,29 @@
     }
     @media (max-width: 640px) {
       .hero {
-        height: clamp(330px, 54vh, 440px);
+        height: 22rem;
       }
       .hero-img {
         object-position: 24% bottom;
-        transform: scale(1.18);
-        transform-origin: 24% bottom;
       }
       .hero-content {
         padding-bottom: 2rem;
       }
     }
     @media (max-width: 430px) {
+      .hero {
+        height: 21rem;
+      }
       .hero-img {
         object-position: 35% bottom;
-        transform: scale(1.16);
-        transform-origin: 35% bottom;
       }
     }
     @media (max-width: 360px) {
+      .hero {
+        height: 20rem;
+      }
       .hero-img {
         object-position: 45% bottom;
-        transform: scale(1.1);
-        transform-origin: 45% bottom;
       }
     }
 
