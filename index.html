@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WeV | Alternative Career Collective</title>
-  <meta name="description" content="WeV is an alternative career collective shifting labor from capitalist power into community-led solutions. Values-based career navigation and impact hiring within the SSE." />
-  <meta property="og:title" content="WeV | Alternative Career Collective" />
-  <meta property="og:description" content="Shifting our labor from capitalist power into community-led solutions." />
-  <meta property="og:image" content="images/community.jpg" />
+  <meta name="description" content="WeV is an alternative career collective shifting labor from capitalist power into community-led solutions. Values-based career navigation and impact hiring within the SSE.">
+  <meta property="og:title" content="WeV | Alternative Career Collective">
+  <meta property="og:description" content="Shifting our labor from capitalist power into community-led solutions.">
+  <meta property="og:image" content="images/community.jpg">
 
   <!-- Fonts: Lexend Deca (primary, per style guide) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    document.documentElement.classList.add('js');
+  </script>
 
   <style>
     /* ─── Official wev Design Tokens (Style Guide v1.0 Feb 2026) ── */
@@ -71,7 +74,28 @@
     }
     img { display: block; max-width: 100%; }
     a { color: inherit; text-decoration: none; }
+    a:focus-visible,
+    button:focus-visible {
+      outline: 3px solid var(--brand-accent-strong);
+      outline-offset: 3px;
+    }
 
+    .skip-link {
+      position: absolute;
+      top: 0.75rem;
+      left: 0.75rem;
+      z-index: 200;
+      transform: translateY(-150%);
+      background: var(--foreground);
+      color: var(--background);
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+      transition: transform 0.15s ease;
+    }
+    .skip-link:focus-visible {
+      transform: translateY(0);
+    }
     /* ─── Nav ─────────────────────────────────────────────────── */
     .nav {
       position: sticky;
@@ -352,6 +376,7 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       overflow: hidden;
+      list-style: none;
     }
     @media (max-width: 700px) {
       .values-grid { grid-template-columns: 1fr; }
@@ -421,7 +446,7 @@
       background: var(--primary);
       color: var(--primary-foreground);
       font-family: var(--font);
-      font-size: 0.9375rem;
+      font-size: 1rem;
       font-weight: 600;
       padding: 0.75rem 1.5rem;
       border-radius: var(--radius);
@@ -598,7 +623,7 @@
     .footer-links a:hover { color: #fefbf7; }
     .footer-coop {
       font-size: 0.75rem;
-      color: rgba(254, 251, 247, 0.35);
+      color: rgba(254, 251, 247, 0.75);
     }
 
     /* ─── Mobile tweaks ─────────────────────────────────────────── */
@@ -617,31 +642,52 @@
 
     /* ─── Animations ────────────────────────────────────────────── */
     .fade-up {
+      opacity: 1;
+      transform: none;
+    }
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .js .fade-up {
       opacity: 0;
       transform: translateY(16px);
       transition: opacity 0.45s ease, transform 0.45s ease;
     }
-    .fade-up.visible {
+    .js .fade-up.visible {
       opacity: 1;
       transform: none;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *,
+      *::before,
+      *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+      .js .fade-up {
+        opacity: 1;
+        transform: none;
+      }
     }
   </style>
 </head>
 
 <body>
+  <a href="#main" class="skip-link">Skip to main content</a>
 
   <!-- ── Nav ──────────────────────────────────────────────── -->
-  <nav class="nav" role="navigation" aria-label="Main navigation">
+  <nav class="nav" aria-label="Main navigation">
     <div class="nav-inner">
       <a href="#" class="nav-logo" aria-label="WeV home">
-        <img src="images/wev-logotype.png" alt="" class="nav-logo-img" aria-hidden="true" />
+        <img src="images/wev-logotype.png" alt="" class="nav-logo-img" aria-hidden="true">
       </a>
 
-      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <button type="button" class="nav-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="primary-navigation">
         <span></span><span></span><span></span>
       </button>
 
-      <ul class="nav-links" role="list">
+      <ul id="primary-navigation" class="nav-links">
         <li><a href="#about">About</a></li>
         <li><a href="#newsletter">Newsletter</a></li>
         <li><a href="#jobs">Job Board</a></li>
@@ -650,13 +696,15 @@
     </div>
   </nav>
 
+  <main id="main" tabindex="-1">
+
   <!-- ── Hero ─────────────────────────────────────────────── -->
-  <header class="hero" role="banner">
+  <header class="hero">
     <img
       src="images/community.jpg"
       alt="A group of people laughing together outdoors"
       class="hero-img"
-    />
+    >
     <div class="hero-overlay" aria-hidden="true"></div>
     <div class="hero-content">
       <p class="hero-eyebrow">Social &amp; Solidarity Economy</p>
@@ -688,12 +736,12 @@
           src="images/protest.jpg"
           alt="A protester in a crowd carrying a cardboard sign reading 'This system doesn't work'"
           class="about-img"
-        />
+        >
       </div>
     </div>
   </section>
 
-  <hr class="section-divider" />
+  <hr class="section-divider">
 
   <!-- ── Values ───────────────────────────────────────────── -->
   <section id="values" aria-labelledby="values-heading">
@@ -703,29 +751,29 @@
         Our <span class="lavender">values</span> are our compass.
       </h2>
 
-      <div class="values-grid" role="list">
-        <div class="value-card fade-up" role="listitem">
+      <ul class="values-grid">
+        <li class="value-card fade-up">
           <span class="value-num">01</span>
           <p class="value-title">Community &amp; Solidarity</p>
           <p class="value-body">
             We value community and solidarity through consensus-based decision-making and non-hierarchical processes.
           </p>
-        </div>
-        <div class="value-card fade-up" role="listitem" style="transition-delay:0.1s">
+        </li>
+        <li class="value-card fade-up delay-1">
           <span class="value-num">02</span>
           <p class="value-title">Well-being, Dignity &amp; Decent Livelihood</p>
           <p class="value-body">
             We champion values-based careers with living wages, benefits, and genuine work-life balance.
           </p>
-        </div>
-        <div class="value-card fade-up" role="listitem" style="transition-delay:0.2s">
+        </li>
+        <li class="value-card fade-up delay-2">
           <span class="value-num">03</span>
           <p class="value-title">People &amp; Planet before Profit</p>
           <p class="value-body">
             We value human and social utility over capital, putting people and planet before profit.
           </p>
-        </div>
-      </div>
+        </li>
+      </ul>
     </div>
   </section>
 
@@ -747,6 +795,7 @@
             class="btn-primary fade-up"
             target="_blank"
             rel="noopener"
+            aria-label="Read the newsletter, opens in a new tab"
           >
             Read the newsletter
           </a>
@@ -757,13 +806,13 @@
             src="images/newsletter.jpg"
             alt="A poster on a city pole reading Good News Is Coming"
             class="resource-img resource-img-newsletter"
-          />
+          >
         </figure>
       </div>
     </div>
   </section>
 
-  <hr class="section-divider" />
+  <hr class="section-divider">
 
   <!-- ── Job Board ──────────────────────────────────────────── -->
   <section id="jobs" class="resource-section-tint" aria-labelledby="jobs-heading">
@@ -775,7 +824,7 @@
             src="images/board.jpg"
             alt="A person placing sticky notes on a wall in a collaborative workspace"
             class="resource-img resource-img-board"
-          />
+          >
         </figure>
 
         <div>
@@ -791,6 +840,7 @@
             class="btn-primary fade-up"
             target="_blank"
             rel="noopener"
+            aria-label="Visit the job board, opens in a new tab"
           >
             Visit the job board
           </a>
@@ -799,7 +849,7 @@
     </div>
   </section>
 
-  <hr class="section-divider" />
+  <hr class="section-divider">
 
   <!-- ── Contact ──────────────────────────────────────────── -->
   <section id="contact" aria-labelledby="contact-heading">
@@ -864,6 +914,8 @@
     </div>
   </section>
 
+  </main>
+
   <!-- ── Footer ───────────────────────────────────────────── -->
   <footer>
     <div class="footer-inner">
@@ -882,30 +934,40 @@
     const toggle = document.querySelector('.nav-toggle');
     const links  = document.querySelector('.nav-links');
 
-    toggle.addEventListener('click', () => {
-      const open = links.classList.toggle('open');
-      toggle.classList.toggle('open', open);
-      toggle.setAttribute('aria-expanded', open);
-    });
-    links.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        links.classList.remove('open');
-        toggle.classList.remove('open');
-        toggle.setAttribute('aria-expanded', 'false');
+    if (toggle && links) {
+      toggle.addEventListener('click', () => {
+        const open = links.classList.toggle('open');
+        toggle.classList.toggle('open', open);
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
       });
-    });
+      links.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          links.classList.remove('open');
+          toggle.classList.remove('open');
+          toggle.setAttribute('aria-expanded', 'false');
+          toggle.setAttribute('aria-label', 'Open navigation');
+        });
+      });
+    }
 
     // ── Scroll animations ─────────────────────────────────────
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          observer.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.1 });
+    const fadeUps = document.querySelectorAll('.fade-up');
 
-    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            observer.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      fadeUps.forEach(el => observer.observe(el));
+    } else {
+      fadeUps.forEach(el => el.classList.add('visible'));
+    }
   </script>
 </body>
 </html>
