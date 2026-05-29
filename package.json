@@ -1,11 +1,13 @@
 {
   "private": true,
   "scripts": {
-    "test": "node scripts/check-site.js",
+    "test": "node scripts/check-site.js && npm run test:smoke",
+    "test:smoke": "node scripts/smoke-test.js",
     "test:a11y": "pa11y --config pa11y.json --reporter cli file://$PWD/index.html"
   },
   "devDependencies": {
     "html-validate": "^11.4.0",
+    "jsdom": "^29.1.1",
     "pa11y": "^9.1.1"
   }
 }
