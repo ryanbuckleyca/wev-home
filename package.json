@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "scripts": {
+    "test": "node scripts/check-site.js",
+    "test:a11y": "pa11y --config pa11y.json --reporter cli file://$PWD/index.html"
+  },
+  "devDependencies": {
+    "html-validate": "^11.4.0",
+    "pa11y": "^9.1.1"
+  }
+}
