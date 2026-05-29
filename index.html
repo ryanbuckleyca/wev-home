@@ -231,6 +231,18 @@
     .hero-headline .accent {
       color: var(--watercolor-lavender);
     }
+    @media (max-width: 640px) {
+      .hero {
+        height: clamp(330px, 54vh, 440px);
+      }
+      .hero-img {
+        transform: scale(1.24);
+        transform-origin: left bottom;
+      }
+      .hero-content {
+        padding-bottom: 2rem;
+      }
+    }
 
     /* ─── Section scaffolding ──────────────────────────────────── */
     .section {
