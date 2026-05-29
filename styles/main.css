@@ -158,17 +158,13 @@ html.theme-switching *::after {
   gap: 0.875rem;
   list-style: none;
 }
-.nav-link-group,
-.nav-utility-group {
+.nav-link-group {
   display: flex;
   align-items: center;
   list-style: none;
 }
 .nav-link-group {
   gap: 0.25rem;
-}
-.nav-utility-group {
-  gap: 0.5rem;
 }
 .nav-links a {
   display: inline-flex;
@@ -316,15 +312,10 @@ html.theme-switching *::after {
     gap: 0.25rem;
   }
   .nav-links.open { display: flex; }
-  .nav-link-group,
-  .nav-utility-group {
+  .nav-link-group {
     flex-direction: column;
     align-items: stretch;
     gap: 0.25rem;
-  }
-  .nav-utility-group {
-    align-items: center;
-    padding: 0.35rem 0;
   }
   .nav-links a { justify-content: center; font-size: 1rem; padding: 0.65rem 1rem; }
   .locale-switcher,
