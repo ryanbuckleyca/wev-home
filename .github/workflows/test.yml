@@ -23,3 +23,7 @@ jobs:
 
       - name: Run static site tests
         run: npm test
+
+      - name: Run accessibility tests
+        continue-on-error: true
+        run: npm run test:a11y

@@ -22,6 +22,29 @@ function setStoredValue(key, value) {
   }
 }
 
+function getThemeMediaQuery() {
+  if (!window.matchMedia) return null;
+
+  try {
+    return window.matchMedia('(prefers-color-scheme: dark)');
+  } catch {
+    return null;
+  }
+}
+
+function listenToMediaQuery(mediaQuery, onChange) {
+  if (!mediaQuery) return;
+
+  if (mediaQuery.addEventListener) {
+    mediaQuery.addEventListener('change', onChange);
+    return;
+  }
+
+  if (mediaQuery.addListener) {
+    mediaQuery.addListener(onChange);
+  }
+}
+
 function getInitialLocale() {
   const params = new URLSearchParams(window.location.search);
   const requestedLocale = params.get('lang');
@@ -33,30 +56,44 @@ function getInitialLocale() {
   return browserLocale;
 }
 
-function setLocale(locale, { persist = true, updateUrl = true } = {}) {
-  const messages = applyTranslations(locale, translations);
-  if (!messages) return;
+function createLocaleController({ mobileNavControls, themeControls }) {
+  function setLocale(locale, { persist = true, updateUrl = true } = {}) {
+    const messages = applyTranslations(locale, translations);
+    if (!messages) return;
 
-  updateThemeToggleLabel();
+    themeControls.updateThemeToggleLabel();
 
-  document.querySelectorAll('[data-locale-switcher]').forEach(button => {
-    button.dataset.currentLocale = locale;
-  });
+    document.querySelectorAll('[data-locale-switcher]').forEach(button => {
+      button.dataset.currentLocale = locale;
+    });
 
-  if (mobileNavControls.isOpen()) {
-    mobileNavControls.setLabel(messages.nav.closeMenu);
+    if (mobileNavControls.isOpen()) {
+      mobileNavControls.setLabel(messages.nav.closeMenu);
+    }
+
+    if (persist) setStoredValue(localeStorageKey, locale);
+
+    if (updateUrl) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('lang', locale);
+      window.history.replaceState({}, '', url);
+    }
   }
 
-  if (persist) setStoredValue(localeStorageKey, locale);
-
-  if (updateUrl) {
-    const url = new URL(window.location.href);
-    url.searchParams.set('lang', locale);
-    window.history.replaceState({}, '', url);
+  function initLocaleSwitchers() {
+    document.querySelectorAll('[data-locale-switcher]').forEach(button => {
+      button.addEventListener('click', () => {
+        const nextLocale = document.documentElement.lang === 'en' ? 'fr' : 'en';
+        setLocale(nextLocale);
+      });
+    });
   }
+
+  return {
+    initLocaleSwitchers,
+    setLocale,
+  };
 }
-
-const localeSwitchers = document.querySelectorAll('[data-locale-switcher]');
 
 function getCurrentTheme() {
   return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
@@ -99,7 +136,7 @@ function initThemeToggle() {
     });
   }
 
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+  listenToMediaQuery(getThemeMediaQuery(), event => {
     if (getStoredValue(themeStorageKey)) return;
     setTheme(event.matches ? 'dark' : 'light', { persist: false });
   });
@@ -111,19 +148,12 @@ function initThemeToggle() {
   };
 }
 
-let themeControls = { updateThemeToggleLabel: () => {} };
-let mobileNavControls = { isOpen: () => false, setLabel: () => {} };
-
-function updateThemeToggleLabel() {
-  themeControls.updateThemeToggleLabel();
-}
-
 function initMobileNav() {
   const toggle = document.querySelector('.nav-toggle');
   const links  = document.querySelector('.nav-links');
 
   if (!toggle || !links) {
-    return { isOpen: () => false };
+    return { isOpen: () => false, setLabel: () => {} };
   }
 
   function closeMenu() {
@@ -147,16 +177,12 @@ function initMobileNav() {
   };
 }
 
-localeSwitchers.forEach(button => {
-  button.addEventListener('click', () => {
-    const nextLocale = document.documentElement.lang === 'en' ? 'fr' : 'en';
-    setLocale(nextLocale);
-  });
-});
+const mobileNavControls = initMobileNav();
+const themeControls = initThemeToggle();
+const localeControls = createLocaleController({ mobileNavControls, themeControls });
 
-mobileNavControls = initMobileNav();
-themeControls = initThemeToggle();
-setLocale(getInitialLocale(), { persist: false, updateUrl: false });
+localeControls.initLocaleSwitchers();
+localeControls.setLocale(getInitialLocale(), { persist: false, updateUrl: false });
 
 // ── Scroll animations ─────────────────────────────────────
 const fadeUps = document.querySelectorAll('.fade-up');
