@@ -185,8 +185,20 @@
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.875rem;
       list-style: none;
+    }
+    .nav-link-group,
+    .nav-utility-group {
+      display: flex;
+      align-items: center;
+      list-style: none;
+    }
+    .nav-link-group {
+      gap: 0.25rem;
+    }
+    .nav-utility-group {
+      gap: 0.5rem;
     }
     .nav-links a {
       display: inline-flex;
@@ -208,7 +220,6 @@
       font-weight: 600;
       border-radius: var(--radius);
       padding: 0.4rem 0.875rem;
-      margin-left: 0.25rem;
     }
     .nav-links .nav-cta:hover {
       background: var(--brand-accent);
@@ -335,6 +346,16 @@
         gap: 0.25rem;
       }
       .nav-links.open { display: flex; }
+      .nav-link-group,
+      .nav-utility-group {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.25rem;
+      }
+      .nav-utility-group {
+        align-items: center;
+        padding: 0.35rem 0;
+      }
       .nav-links a { justify-content: center; font-size: 1rem; padding: 0.65rem 1rem; }
       .locale-switcher,
       .theme-toggle-wrap { align-self: center; margin: 0.35rem 0; }
@@ -855,41 +876,49 @@
       </button>
 
       <ul id="primary-navigation" class="nav-links">
-        <li><a href="#about" data-i18n="nav.about">About</a></li>
-        <li><a href="#newsletter" data-i18n="nav.newsletter">Newsletter</a></li>
-        <li><a href="#jobs" data-i18n="nav.jobs">Job Board</a></li>
         <li>
-          <button
-            type="button"
-            class="locale-switcher"
-            data-locale-switcher
-            data-current-locale="en"
-            aria-label="Toggle language"
-            data-i18n-aria-label="language.toggle"
-          >
-            <span class="locale-option locale-option-en" lang="en">EN</span>
-            <span class="locale-option locale-option-fr" lang="fr">FR</span>
-          </button>
+          <ul class="nav-link-group">
+            <li><a href="#about" data-i18n="nav.about">About</a></li>
+            <li><a href="#newsletter" data-i18n="nav.newsletter">Newsletter</a></li>
+            <li><a href="#jobs" data-i18n="nav.jobs">Job Board</a></li>
+          </ul>
         </li>
         <li>
-          <span class="theme-toggle-wrap">
-            <button
-              type="button"
-              class="theme-toggle"
-              data-theme-toggle
-              aria-label="Switch to dark mode"
-              data-i18n-theme-label
-            >
-              <span class="theme-toggle-thumb" aria-hidden="true">
-                <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" fill="currentColor" focusable="false">
-                  <path d="M21 14.6A8.5 8.5 0 0 1 9.4 3 7.5 7.5 0 1 0 21 14.6Z"></path>
-                </svg>
-                <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" fill="currentColor" focusable="false">
-                  <path d="M12 4.5a1 1 0 0 0 1-1V2a1 1 0 1 0-2 0v1.5a1 1 0 0 0 1 1Zm0 15a1 1 0 0 0-1 1V22a1 1 0 1 0 2 0v-1.5a1 1 0 0 0-1-1ZM4.5 12a1 1 0 0 0-1-1H2a1 1 0 1 0 0 2h1.5a1 1 0 0 0 1-1Zm17.5-1h-1.5a1 1 0 1 0 0 2H22a1 1 0 1 0 0-2ZM5.64 4.22a1 1 0 0 0-1.42 1.42l1.06 1.06A1 1 0 0 0 6.7 5.28L5.64 4.22Zm13.08 13.08a1 1 0 0 0-1.42 1.42l1.06 1.06a1 1 0 0 0 1.42-1.42l-1.06-1.06Zm1.06-11.66a1 1 0 1 0-1.42-1.42L17.3 5.28A1 1 0 0 0 18.72 6.7l1.06-1.06ZM6.7 17.3a1 1 0 0 0-1.42 0l-1.06 1.06a1 1 0 1 0 1.42 1.42l1.06-1.06a1 1 0 0 0 0-1.42ZM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z"></path>
-                </svg>
+          <ul class="nav-utility-group">
+            <li>
+              <button
+                type="button"
+                class="locale-switcher"
+                data-locale-switcher
+                data-current-locale="en"
+                aria-label="Toggle language"
+                data-i18n-aria-label="language.toggle"
+              >
+                <span class="locale-option locale-option-en" lang="en">EN</span>
+                <span class="locale-option locale-option-fr" lang="fr">FR</span>
+              </button>
+            </li>
+            <li>
+              <span class="theme-toggle-wrap">
+                <button
+                  type="button"
+                  class="theme-toggle"
+                  data-theme-toggle
+                  aria-label="Switch to dark mode"
+                  data-i18n-theme-label
+                >
+                  <span class="theme-toggle-thumb" aria-hidden="true">
+                    <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" fill="currentColor" focusable="false">
+                      <path d="M21 14.6A8.5 8.5 0 0 1 9.4 3 7.5 7.5 0 1 0 21 14.6Z"></path>
+                    </svg>
+                    <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" fill="currentColor" focusable="false">
+                      <path d="M12 4.5a1 1 0 0 0 1-1V2a1 1 0 1 0-2 0v1.5a1 1 0 0 0 1 1Zm0 15a1 1 0 0 0-1 1V22a1 1 0 1 0 2 0v-1.5a1 1 0 0 0-1-1ZM4.5 12a1 1 0 0 0-1-1H2a1 1 0 1 0 0 2h1.5a1 1 0 0 0 1-1Zm17.5-1h-1.5a1 1 0 1 0 0 2H22a1 1 0 1 0 0-2ZM5.64 4.22a1 1 0 0 0-1.42 1.42l1.06 1.06A1 1 0 0 0 6.7 5.28L5.64 4.22Zm13.08 13.08a1 1 0 0 0-1.42 1.42l1.06 1.06a1 1 0 0 0 1.42-1.42l-1.06-1.06Zm1.06-11.66a1 1 0 1 0-1.42-1.42L17.3 5.28A1 1 0 0 0 18.72 6.7l1.06-1.06ZM6.7 17.3a1 1 0 0 0-1.42 0l-1.06 1.06a1 1 0 1 0 1.42 1.42l1.06-1.06a1 1 0 0 0 0-1.42ZM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z"></path>
+                    </svg>
+                  </span>
+                </button>
               </span>
-            </button>
-          </span>
+            </li>
+          </ul>
         </li>
         <li><a href="#contact" class="nav-cta" data-i18n="nav.contact">Contact</a></li>
       </ul>
