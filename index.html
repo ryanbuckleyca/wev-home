@@ -15,8 +15,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script>
     document.documentElement.classList.add('js');
+    function getStoredPreference(key) {
+      try {
+        return window.localStorage.getItem(key);
+      } catch {
+        return null;
+      }
+    }
+
     try {
-      const savedTheme = window.localStorage.getItem('theme');
+      const savedTheme = getStoredPreference('theme');
       const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       document.documentElement.setAttribute(
         'data-theme',
@@ -1193,10 +1201,26 @@
     const themeSwitchDuration = 300;
     let themeSwitchTimeout;
 
+    function getStoredValue(key) {
+      try {
+        return window.localStorage.getItem(key);
+      } catch {
+        return null;
+      }
+    }
+
+    function setStoredValue(key, value) {
+      try {
+        window.localStorage.setItem(key, value);
+      } catch {
+        // Persistence is progressive enhancement; the UI should still work without storage.
+      }
+    }
+
     function getInitialLocale() {
       const params = new URLSearchParams(window.location.search);
       const requestedLocale = params.get('lang');
-      const savedLocale = window.localStorage.getItem(localeStorageKey);
+      const savedLocale = getStoredValue(localeStorageKey);
       const browserLocale = navigator.language && navigator.language.toLowerCase().startsWith('fr') ? 'fr' : 'en';
 
       if (supportedLocales.includes(requestedLocale)) return requestedLocale;
@@ -1218,7 +1242,7 @@
         toggle.setAttribute('aria-label', messages.nav.closeMenu);
       }
 
-      if (persist) window.localStorage.setItem(localeStorageKey, locale);
+      if (persist) setStoredValue(localeStorageKey, locale);
 
       if (updateUrl) {
         const url = new URL(window.location.href);
@@ -1257,7 +1281,7 @@
       updateThemeToggleLabel();
 
       if (persist) {
-        window.localStorage.setItem(themeStorageKey, theme);
+        setStoredValue(themeStorageKey, theme);
         document.cookie = `theme=${theme};path=/;max-age=31536000;SameSite=Lax`;
       }
 
@@ -1301,7 +1325,7 @@
     }
 
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-      if (window.localStorage.getItem(themeStorageKey)) return;
+      if (getStoredValue(themeStorageKey)) return;
       setTheme(event.matches ? 'dark' : 'light', { persist: false });
     });
     updateThemeToggleLabel();
