@@ -37,7 +37,7 @@ window.wevTranslations = {
     },
     values: {
       eyebrow: 'What drives us',
-      heading: 'Our <span class="lavender">values</span> are our compass.',
+      heading: 'Our <span class="teal">values</span> are our compass.',
       communityTitle: 'Community & Solidarity',
       communityBody:
         'We value community and solidarity through consensus-based decision-making and non-hierarchical processes.',
@@ -133,7 +133,7 @@ window.wevTranslations = {
     },
     values: {
       eyebrow: 'Ce qui nous guide',
-      heading: 'Nos <span class="lavender">valeurs</span> sont notre boussole.',
+      heading: 'Nos <span class="teal">valeurs</span> sont notre boussole.',
       communityTitle: 'Communauté et solidarité',
       communityBody:
         'Nous valorisons la communauté et la solidarité grâce à des processus non hiérarchiques et à la prise de décision par consensus.',
