@@ -154,6 +154,39 @@
       background: var(--brand-accent);
       color: var(--primary-foreground);
     }
+    .locale-switcher {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 32px;
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--background);
+      color: var(--text-tertiary);
+      font-family: var(--font);
+      font-size: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.15s ease;
+    }
+    .locale-switcher:hover { opacity: 0.82; }
+    .locale-option {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      min-height: 30px;
+      padding: 0 0.7rem;
+      transition: background 0.2s ease, color 0.2s ease, font-weight 0.2s ease;
+    }
+    .locale-switcher[data-current-locale="en"] .locale-option-en,
+    .locale-switcher[data-current-locale="fr"] .locale-option-fr {
+      background: var(--card);
+      color: var(--foreground);
+      font-weight: 700;
+    }
 
     /* Mobile nav */
     .nav-toggle {
@@ -194,6 +227,7 @@
       }
       .nav-links.open { display: flex; }
       .nav-links a { justify-content: center; font-size: 1rem; padding: 0.65rem 1rem; }
+      .locale-switcher { align-self: center; margin: 0.35rem 0; }
     }
 
     /* ─── Hero ────────────────────────────────────────────────── */
@@ -680,24 +714,37 @@
 </head>
 
 <body>
-  <a href="#main" class="skip-link">Skip to main content</a>
+  <a href="#main" class="skip-link" data-i18n="skipLink">Skip to main content</a>
 
   <!-- ── Nav ──────────────────────────────────────────────── -->
-  <nav class="nav" aria-label="Main navigation">
+  <nav class="nav" aria-label="Main navigation" data-i18n-aria-label="nav.ariaLabel">
     <div class="nav-inner">
-      <a href="#" class="nav-logo" aria-label="WeV home">
+      <a href="#" class="nav-logo" aria-label="WeV home" data-i18n-aria-label="nav.logoLabel">
         <img src="images/wev-logotype.png" alt="" class="nav-logo-img" aria-hidden="true">
       </a>
 
-      <button type="button" class="nav-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="primary-navigation">
+      <button type="button" class="nav-toggle" aria-label="Open navigation" data-i18n-aria-label="nav.openMenu" aria-expanded="false" aria-controls="primary-navigation">
         <span></span><span></span><span></span>
       </button>
 
       <ul id="primary-navigation" class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#newsletter">Newsletter</a></li>
-        <li><a href="#jobs">Job Board</a></li>
-        <li><a href="#contact" class="nav-cta">Contact</a></li>
+        <li><a href="#about" data-i18n="nav.about">About</a></li>
+        <li><a href="#newsletter" data-i18n="nav.newsletter">Newsletter</a></li>
+        <li><a href="#jobs" data-i18n="nav.jobs">Job Board</a></li>
+        <li>
+          <button
+            type="button"
+            class="locale-switcher"
+            data-locale-switcher
+            data-current-locale="en"
+            aria-label="Toggle language"
+            data-i18n-aria-label="language.toggle"
+          >
+            <span class="locale-option locale-option-en" lang="en">EN</span>
+            <span class="locale-option locale-option-fr" lang="fr">FR</span>
+          </button>
+        </li>
+        <li><a href="#contact" class="nav-cta" data-i18n="nav.contact">Contact</a></li>
       </ul>
     </div>
   </nav>
@@ -709,13 +756,14 @@
     <img
       src="images/community.jpg"
       alt="A group of people laughing together outdoors"
+      data-i18n-alt="images.communityAlt"
       class="hero-img"
     >
     <div class="hero-overlay" aria-hidden="true"></div>
     <div class="hero-content">
       <div class="hero-copy">
-        <p class="hero-eyebrow">Social &amp; Solidarity Economy</p>
-        <h1 class="hero-headline">
+        <p class="hero-eyebrow" data-i18n="hero.eyebrow">Social &amp; Solidarity Economy</p>
+        <h1 class="hero-headline" data-i18n-html="hero.headline">
           Work that builds a <span class="accent">better world.</span>
         </h1>
       </div>
@@ -725,15 +773,15 @@
   <!-- ── About ────────────────────────────────────────────── -->
   <section id="about" aria-labelledby="about-heading">
     <div class="section">
-      <p class="section-eyebrow">Who we are</p>
+      <p class="section-eyebrow" data-i18n="about.eyebrow">Who we are</p>
       <div class="about-grid">
         <div>
-          <h2 id="about-heading" class="about-headline fade-up">
+          <h2 id="about-heading" class="about-headline fade-up" data-i18n-html="about.heading">
             An <span class="teal">alternative</span> career collective.
           </h2>
         </div>
         <div>
-          <p class="about-body fade-up">
+          <p class="about-body fade-up" data-i18n-html="about.body">
             WeV is shifting our labor <strong>from capitalist power</strong> into community-led solutions. We focus on <strong>values-based career navigation</strong> and impact hiring within the social and solidarity economy, connecting people who want their work to build a better world.
           </p>
         </div>
@@ -743,6 +791,7 @@
         <img
           src="images/protest.jpg"
           alt="A protester in a crowd carrying a cardboard sign reading 'This system doesn't work'"
+          data-i18n-alt="images.protestAlt"
           class="about-img"
         >
       </div>
@@ -754,30 +803,30 @@
   <!-- ── Values ───────────────────────────────────────────── -->
   <section id="values" aria-labelledby="values-heading">
     <div class="section">
-      <p class="section-eyebrow">What drives us</p>
-      <h2 id="values-heading" class="values-headline fade-up">
+      <p class="section-eyebrow" data-i18n="values.eyebrow">What drives us</p>
+      <h2 id="values-heading" class="values-headline fade-up" data-i18n-html="values.heading">
         Our <span class="lavender">values</span> are our compass.
       </h2>
 
       <ul class="values-grid">
         <li class="value-card fade-up">
           <span class="value-num">01</span>
-          <p class="value-title">Community &amp; Solidarity</p>
-          <p class="value-body">
+          <p class="value-title" data-i18n="values.communityTitle">Community &amp; Solidarity</p>
+          <p class="value-body" data-i18n="values.communityBody">
             We value community and solidarity through consensus-based decision-making and non-hierarchical processes.
           </p>
         </li>
         <li class="value-card fade-up delay-1">
           <span class="value-num">02</span>
-          <p class="value-title">Well-being, Dignity &amp; Decent Livelihood</p>
-          <p class="value-body">
+          <p class="value-title" data-i18n="values.livelihoodTitle">Well-being, Dignity &amp; Decent Livelihood</p>
+          <p class="value-body" data-i18n="values.livelihoodBody">
             We champion values-based careers with living wages, benefits, and genuine work-life balance.
           </p>
         </li>
         <li class="value-card fade-up delay-2">
           <span class="value-num">03</span>
-          <p class="value-title">People &amp; Planet before Profit</p>
-          <p class="value-body">
+          <p class="value-title" data-i18n="values.planetTitle">People &amp; Planet before Profit</p>
+          <p class="value-body" data-i18n="values.planetBody">
             We value human and social utility over capital, putting people and planet before profit.
           </p>
         </li>
@@ -788,14 +837,14 @@
   <!-- ── Newsletter ─────────────────────────────────────────── -->
   <section id="newsletter" aria-labelledby="newsletter-heading">
     <div class="section">
-      <p class="section-eyebrow">Stay connected</p>
+      <p class="section-eyebrow" data-i18n="newsletter.eyebrow">Stay connected</p>
       <div class="resource-grid">
         <div>
-          <p class="resource-kicker fade-up">Newsletter</p>
-          <h2 id="newsletter-heading" class="resource-heading fade-up">
+          <p class="resource-kicker fade-up" data-i18n="newsletter.kicker">Newsletter</p>
+          <h2 id="newsletter-heading" class="resource-heading fade-up" data-i18n="newsletter.heading">
             Notes on work, solidarity, and transition.
           </h2>
-          <p class="resource-body fade-up">
+          <p class="resource-body fade-up" data-i18n="newsletter.body">
             Our newsletter shares reflections, resources, and updates for people moving their labor toward community-led, values-aligned work.
           </p>
           <a
@@ -804,6 +853,8 @@
             target="_blank"
             rel="noopener"
             aria-label="Read the newsletter, opens in a new tab"
+            data-i18n="newsletter.cta"
+            data-i18n-aria-label="newsletter.ctaLabel"
           >
             Read the newsletter
           </a>
@@ -813,6 +864,7 @@
           <img
             src="images/newsletter.jpg"
             alt="A poster on a city pole reading Good News Is Coming"
+            data-i18n-alt="images.newsletterAlt"
             class="resource-img resource-img-newsletter"
           >
         </figure>
@@ -825,22 +877,23 @@
   <!-- ── Job Board ──────────────────────────────────────────── -->
   <section id="jobs" class="resource-section-tint" aria-labelledby="jobs-heading">
     <div class="section">
-      <p class="section-eyebrow">Find aligned work</p>
+      <p class="section-eyebrow" data-i18n="jobs.eyebrow">Find aligned work</p>
       <div class="resource-grid reverse">
         <figure class="resource-image-card resource-image-card-board fade-up">
           <img
             src="images/board.jpg"
             alt="A person placing sticky notes on a wall in a collaborative workspace"
+            data-i18n-alt="images.boardAlt"
             class="resource-img resource-img-board"
           >
         </figure>
 
         <div>
-          <p class="resource-kicker fade-up">Job Board</p>
-          <h2 id="jobs-heading" class="resource-heading fade-up">
+          <p class="resource-kicker fade-up" data-i18n="jobs.kicker">Job Board</p>
+          <h2 id="jobs-heading" class="resource-heading fade-up" data-i18n="jobs.heading">
             Values-aligned opportunities in one place.
           </h2>
-          <p class="resource-body fade-up">
+          <p class="resource-body fade-up" data-i18n="jobs.body">
             The wev Bulletin collects openings across the social and solidarity economy so job seekers can discover work that supports people, the planet, and collective power.
           </p>
           <a
@@ -849,6 +902,8 @@
             target="_blank"
             rel="noopener"
             aria-label="Visit the job board, opens in a new tab"
+            data-i18n="jobs.cta"
+            data-i18n-aria-label="jobs.ctaLabel"
           >
             Visit the job board
           </a>
@@ -862,27 +917,28 @@
   <!-- ── Contact ──────────────────────────────────────────── -->
   <section id="contact" aria-labelledby="contact-heading">
     <div class="section">
-      <p class="section-eyebrow">Get in touch</p>
+      <p class="section-eyebrow" data-i18n="contact.eyebrow">Get in touch</p>
       <div class="contact-grid">
 
         <div>
-          <h2 id="contact-heading" class="contact-headline fade-up">
+          <h2 id="contact-heading" class="contact-headline fade-up" data-i18n="contact.heading">
             Let's build something together.
           </h2>
-          <p class="contact-body fade-up">
+          <p class="contact-body fade-up" data-i18n="contact.body">
             Whether you're an organization in the SSE looking to hire with intention, or someone navigating a values-driven career path, we'd love to hear from you.
           </p>
           <a
             href="mailto:salut@wevchange.org?subject=WeV%20inquiry"
             class="btn-primary"
             aria-label="Send email to WeV"
+            data-i18n-aria-label="contact.emailLabel"
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
             </svg>
-            Email us
+            <span data-i18n="contact.emailCta">Email us</span>
           </a>
-          <p class="mailto-note">
+          <p class="mailto-note" data-i18n-html="contact.emailNote">
             ... or write to us directly at
             <a href="mailto:salut@wevchange.org">salut@wevchange.org</a>
           </p>
@@ -891,29 +947,29 @@
         <div>
           <div class="contact-info-grid">
             <div class="contact-info-card">
-              <p class="contact-info-label">Email</p>
+              <p class="contact-info-label" data-i18n="contact.infoEmail">Email</p>
               <p class="contact-info-value">
                 <a href="mailto:salut@wevchange.org">salut@wevchange.org</a>
               </p>
             </div>
             <div class="contact-info-card">
-              <p class="contact-info-label">Newsletter</p>
+              <p class="contact-info-label" data-i18n="contact.infoNewsletter">Newsletter</p>
               <p class="contact-info-value">
                 <a href="#newsletter">Substack</a>
               </p>
             </div>
             <div class="contact-info-card">
-              <p class="contact-info-label">Job Board</p>
+              <p class="contact-info-label" data-i18n="contact.infoJobs">Job Board</p>
               <p class="contact-info-value">
                 <a href="#jobs">wev Bulletin</a>
               </p>
             </div>
             <div class="contact-info-card">
-              <p class="contact-info-label">Socials</p>
-              <p class="contact-info-value">Reluctantly coming soon...</p>
+              <p class="contact-info-label" data-i18n="contact.infoSocials">Socials</p>
+              <p class="contact-info-value" data-i18n="contact.socialsValue">Reluctantly coming soon...</p>
             </div>
           </div>
-          <p class="contact-right-note">
+          <p class="contact-right-note" data-i18n="contact.rightNote">
             We're a small collective. We read every message and respond to all inquiries, typically within a few business days.
           </p>
         </div>
@@ -929,35 +985,273 @@
     <div class="footer-inner">
       <span class="footer-logo">wev</span>
       <div class="footer-links">
-        <a href="#newsletter">Newsletter</a>
-        <a href="#jobs">Job Board</a>
+        <a href="#newsletter" data-i18n="nav.newsletter">Newsletter</a>
+        <a href="#jobs" data-i18n="nav.jobs">Job Board</a>
         <a href="mailto:salut@wevchange.org">salut@wevchange.org</a>
       </div>
-      <span class="footer-coop">Made with ❤ in Montréal</span>
+      <span class="footer-coop" data-i18n="footer.madeWith">Made with ❤ in Montréal</span>
     </div>
   </footer>
 
   <script>
+    const translations = {
+      en: {
+        meta: {
+          title: 'WeV | Alternative Career Collective',
+          description: 'WeV is an alternative career collective shifting labor from capitalist power into community-led solutions. Values-based career navigation and impact hiring within the SSE.',
+          ogTitle: 'WeV | Alternative Career Collective',
+          ogDescription: 'Shifting our labor from capitalist power into community-led solutions.',
+        },
+        skipLink: 'Skip to main content',
+        nav: {
+          ariaLabel: 'Main navigation',
+          logoLabel: 'WeV home',
+          openMenu: 'Open navigation',
+          closeMenu: 'Close navigation',
+          about: 'About',
+          newsletter: 'Newsletter',
+          jobs: 'Job Board',
+          contact: 'Contact',
+        },
+        language: {
+          toggle: 'Toggle language',
+        },
+        hero: {
+          eyebrow: 'Social & Solidarity Economy',
+          headline: 'Work that builds a <span class="accent">better world.</span>',
+        },
+        about: {
+          eyebrow: 'Who we are',
+          heading: 'An <span class="teal">alternative</span> career collective.',
+          body: 'WeV is shifting our labor <strong>from capitalist power</strong> into community-led solutions. We focus on <strong>values-based career navigation</strong> and impact hiring within the social and solidarity economy, connecting people who want their work to build a better world.',
+        },
+        values: {
+          eyebrow: 'What drives us',
+          heading: 'Our <span class="lavender">values</span> are our compass.',
+          communityTitle: 'Community & Solidarity',
+          communityBody: 'We value community and solidarity through consensus-based decision-making and non-hierarchical processes.',
+          livelihoodTitle: 'Well-being, Dignity & Decent Livelihood',
+          livelihoodBody: 'We champion values-based careers with living wages, benefits, and genuine work-life balance.',
+          planetTitle: 'People & Planet before Profit',
+          planetBody: 'We value human and social utility over capital, putting people and planet before profit.',
+        },
+        newsletter: {
+          eyebrow: 'Stay connected',
+          kicker: 'Newsletter',
+          heading: 'Notes on work, solidarity, and transition.',
+          body: 'Our newsletter shares reflections, resources, and updates for people moving their labor toward community-led, values-aligned work.',
+          cta: 'Read the newsletter',
+          ctaLabel: 'Read the newsletter, opens in a new tab',
+        },
+        jobs: {
+          eyebrow: 'Find aligned work',
+          kicker: 'Job Board',
+          heading: 'Values-aligned opportunities in one place.',
+          body: 'The wev Bulletin collects openings across the social and solidarity economy so job seekers can discover work that supports people, the planet, and collective power.',
+          cta: 'Visit the job board',
+          ctaLabel: 'Visit the job board, opens in a new tab',
+        },
+        contact: {
+          eyebrow: 'Get in touch',
+          heading: "Let's build something together.",
+          body: "Whether you're an organization in the SSE looking to hire with intention, or someone navigating a values-driven career path, we'd love to hear from you.",
+          emailLabel: 'Send email to WeV',
+          emailCta: 'Email us',
+          emailNote: '... or write to us directly at <a href="mailto:salut@wevchange.org">salut@wevchange.org</a>',
+          infoEmail: 'Email',
+          infoNewsletter: 'Newsletter',
+          infoJobs: 'Job Board',
+          infoSocials: 'Socials',
+          socialsValue: 'Reluctantly coming soon...',
+          rightNote: "We're a small collective. We read every message and respond to all inquiries, typically within a few business days.",
+        },
+        images: {
+          communityAlt: 'A group of people laughing together outdoors',
+          protestAlt: "A protester in a crowd carrying a cardboard sign reading 'This system doesn't work'",
+          newsletterAlt: 'A poster on a city pole reading Good News Is Coming',
+          boardAlt: 'A person placing sticky notes on a wall in a collaborative workspace',
+        },
+        footer: {
+          madeWith: 'Made with ❤ in Montréal',
+        },
+      },
+      fr: {
+        meta: {
+          title: 'WeV | Collectif de carrières alternatives',
+          description: "WeV est un collectif de carrières alternatives qui déplace notre travail du pouvoir capitaliste vers des solutions portées par les communautés. Orientation professionnelle fondée sur les valeurs et recrutement d'impact dans l'économie sociale et solidaire.",
+          ogTitle: 'WeV | Collectif de carrières alternatives',
+          ogDescription: 'Déplacer notre travail du pouvoir capitaliste vers des solutions portées par les communautés.',
+        },
+        skipLink: 'Aller au contenu principal',
+        nav: {
+          ariaLabel: 'Navigation principale',
+          logoLabel: 'Accueil WeV',
+          openMenu: 'Ouvrir la navigation',
+          closeMenu: 'Fermer la navigation',
+          about: 'À propos',
+          newsletter: 'Infolettre',
+          jobs: 'Babillard',
+          contact: 'Contact',
+        },
+        language: {
+          toggle: 'Changer de langue',
+        },
+        hero: {
+          eyebrow: 'Économie sociale et solidaire',
+          headline: 'Un travail qui construit un <span class="accent">monde meilleur.</span>',
+        },
+        about: {
+          eyebrow: 'Qui nous sommes',
+          heading: 'Un collectif de carrières <span class="teal">alternatives</span>.',
+          body: "WeV déplace notre travail <strong>du pouvoir capitaliste</strong> vers des solutions portées par les communautés. Nous nous concentrons sur <strong>l'orientation professionnelle fondée sur les valeurs</strong> et le recrutement d'impact dans l'économie sociale et solidaire, en reliant les personnes qui veulent contribuer à un monde meilleur aux organisations qui le construisent déjà.",
+        },
+        values: {
+          eyebrow: 'Ce qui nous guide',
+          heading: 'Nos <span class="lavender">valeurs</span> sont notre boussole.',
+          communityTitle: 'Communauté et solidarité',
+          communityBody: 'Nous valorisons la communauté et la solidarité grâce à des processus non hiérarchiques et à la prise de décision par consensus.',
+          livelihoodTitle: 'Bien-être, dignité et moyens de subsistance décents',
+          livelihoodBody: "Nous défendons des carrières alignées sur les valeurs, avec des salaires viables, des avantages sociaux et un véritable équilibre de vie.",
+          planetTitle: 'Les personnes et la planète avant le profit',
+          planetBody: "Nous valorisons l'utilité humaine et sociale plutôt que le capital, en plaçant les personnes et la planète avant le profit.",
+        },
+        newsletter: {
+          eyebrow: 'Rester en lien',
+          kicker: 'Infolettre',
+          heading: 'Notes sur le travail, la solidarité et la transition.',
+          body: "Notre infolettre partage des réflexions, des ressources et des nouvelles pour les personnes qui orientent leur travail vers des projets communautaires et alignés sur leurs valeurs.",
+          cta: "Lire l'infolettre",
+          ctaLabel: "Lire l'infolettre, ouvre dans un nouvel onglet",
+        },
+        jobs: {
+          eyebrow: 'Trouver un travail aligné',
+          kicker: 'Babillard',
+          heading: 'Des occasions alignées sur les valeurs, au même endroit.',
+          body: "Le Bulletin wev rassemble des offres dans l'économie sociale et solidaire afin d'aider les personnes en recherche d'emploi à découvrir un travail qui soutient les gens, la planète et le pouvoir collectif.",
+          cta: 'Visiter le babillard',
+          ctaLabel: 'Visiter le babillard, ouvre dans un nouvel onglet',
+        },
+        contact: {
+          eyebrow: 'Nous joindre',
+          heading: 'Construisons quelque chose ensemble.',
+          body: "Que vous soyez une organisation de l'ESS qui recrute avec intention, ou une personne qui trace un parcours professionnel aligné sur ses valeurs, nous aimerions vous lire.",
+          emailLabel: 'Envoyer un courriel à WeV',
+          emailCta: 'Nous écrire',
+          emailNote: '... ou écrivez-nous directement à <a href="mailto:salut@wevchange.org">salut@wevchange.org</a>',
+          infoEmail: 'Courriel',
+          infoNewsletter: 'Infolettre',
+          infoJobs: 'Babillard',
+          infoSocials: 'Réseaux sociaux',
+          socialsValue: 'À venir, à contrecœur...',
+          rightNote: "Nous sommes un petit collectif. Nous lisons chaque message et répondons à toutes les demandes, généralement en quelques jours ouvrables.",
+        },
+        images: {
+          communityAlt: 'Un groupe de personnes qui rient ensemble à l’extérieur',
+          protestAlt: "Une personne dans une foule tenant une pancarte en carton indiquant « This system doesn't work »",
+          newsletterAlt: 'Une affiche sur un poteau en ville indiquant Good News Is Coming',
+          boardAlt: 'Une personne qui place des notes autocollantes sur un mur dans un espace de travail collaboratif',
+        },
+        footer: {
+          madeWith: 'Fait avec ❤ à Montréal',
+        },
+      },
+    };
+
+    const supportedLocales = ['en', 'fr'];
+    const localeStorageKey = 'wev-home-locale';
+
+    function getTranslation(locale, key) {
+      return key.split('.').reduce((value, part) => value && value[part], translations[locale]);
+    }
+
+    function getInitialLocale() {
+      const params = new URLSearchParams(window.location.search);
+      const requestedLocale = params.get('lang');
+      const savedLocale = window.localStorage.getItem(localeStorageKey);
+      const browserLocale = navigator.language && navigator.language.toLowerCase().startsWith('fr') ? 'fr' : 'en';
+
+      if (supportedLocales.includes(requestedLocale)) return requestedLocale;
+      if (supportedLocales.includes(savedLocale)) return savedLocale;
+      return browserLocale;
+    }
+
+    function updateLocalizedAttributes(locale, attribute, dataAttribute) {
+      document.querySelectorAll(`[${dataAttribute}]`).forEach(element => {
+        const value = getTranslation(locale, element.getAttribute(dataAttribute));
+        if (value) element.setAttribute(attribute, value);
+      });
+    }
+
+    function setLocale(locale, { persist = true, updateUrl = true } = {}) {
+      const messages = translations[locale];
+      if (!messages) return;
+
+      document.documentElement.lang = locale;
+      document.title = messages.meta.title;
+      document.querySelector('meta[name="description"]').setAttribute('content', messages.meta.description);
+      document.querySelector('meta[property="og:title"]').setAttribute('content', messages.meta.ogTitle);
+      document.querySelector('meta[property="og:description"]').setAttribute('content', messages.meta.ogDescription);
+
+      document.querySelectorAll('[data-i18n]').forEach(element => {
+        const value = getTranslation(locale, element.getAttribute('data-i18n'));
+        if (value) element.textContent = value;
+      });
+
+      document.querySelectorAll('[data-i18n-html]').forEach(element => {
+        const value = getTranslation(locale, element.getAttribute('data-i18n-html'));
+        if (value) element.innerHTML = value;
+      });
+
+      updateLocalizedAttributes(locale, 'aria-label', 'data-i18n-aria-label');
+      updateLocalizedAttributes(locale, 'alt', 'data-i18n-alt');
+
+      document.querySelectorAll('[data-locale-switcher]').forEach(button => {
+        button.dataset.currentLocale = locale;
+      });
+
+      if (toggle && toggle.getAttribute('aria-expanded') === 'true') {
+        toggle.setAttribute('aria-label', messages.nav.closeMenu);
+      }
+
+      if (persist) window.localStorage.setItem(localeStorageKey, locale);
+
+      if (updateUrl) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('lang', locale);
+        window.history.replaceState({}, '', url);
+      }
+    }
+
     // ── Mobile nav ────────────────────────────────────────────
     const toggle = document.querySelector('.nav-toggle');
     const links  = document.querySelector('.nav-links');
+    const localeSwitchers = document.querySelectorAll('[data-locale-switcher]');
 
     if (toggle && links) {
       toggle.addEventListener('click', () => {
         const open = links.classList.toggle('open');
         toggle.classList.toggle('open', open);
         toggle.setAttribute('aria-expanded', String(open));
-        toggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+        toggle.setAttribute('aria-label', open ? getTranslation(document.documentElement.lang, 'nav.closeMenu') : getTranslation(document.documentElement.lang, 'nav.openMenu'));
       });
       links.querySelectorAll('a').forEach(a => {
         a.addEventListener('click', () => {
           links.classList.remove('open');
           toggle.classList.remove('open');
           toggle.setAttribute('aria-expanded', 'false');
-          toggle.setAttribute('aria-label', 'Open navigation');
+          toggle.setAttribute('aria-label', getTranslation(document.documentElement.lang, 'nav.openMenu'));
         });
       });
     }
+
+    localeSwitchers.forEach(button => {
+      button.addEventListener('click', () => {
+        const nextLocale = document.documentElement.lang === 'en' ? 'fr' : 'en';
+        setLocale(nextLocale);
+      });
+    });
+
+    setLocale(getInitialLocale(), { persist: false, updateUrl: false });
 
     // ── Scroll animations ─────────────────────────────────────
     const fadeUps = document.querySelectorAll('.fade-up');
