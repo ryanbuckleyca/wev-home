@@ -5,7 +5,8 @@ const vm = require('node:vm');
 
 const root = path.resolve(__dirname, '..');
 const indexPath = path.join(root, 'index.html');
-const translationsPath = path.join(root, 'scripts', 'translations.js');
+const scriptsPath = path.join(root, 'scripts');
+const translationsPath = path.join(scriptsPath, 'translations.js');
 
 const htmlTranslationAttributes = [
   'data-i18n',
@@ -66,8 +67,9 @@ function loadTranslations() {
   return sandbox.window.wevTranslations;
 }
 
-function getReferencedTranslationKeys(html) {
+function getReferencedTranslationKeys(html, scriptSources) {
   const keys = new Set();
+  const source = `${html}\n${scriptSources.join('\n')}`;
 
   for (const attribute of htmlTranslationAttributes) {
     const pattern = new RegExp(`${attribute}="([^"]+)"`, 'g');
@@ -76,11 +78,11 @@ function getReferencedTranslationKeys(html) {
     }
   }
 
-  for (const match of html.matchAll(/getTranslation\([^,]+,\s*['"]([^'"]+)['"]\)/g)) {
+  for (const match of source.matchAll(/getTranslation\([^,]+,\s*['"]([^'"]+)['"]\)/g)) {
     keys.add(match[1]);
   }
 
-  for (const match of html.matchAll(/messages\.meta\.([a-zA-Z0-9_]+)/g)) {
+  for (const match of source.matchAll(/messages\.meta\.([a-zA-Z0-9_]+)/g)) {
     keys.add(`meta.${match[1]}`);
   }
 
@@ -118,8 +120,8 @@ function checkTranslationParity(translations) {
   }
 }
 
-function checkTranslationUsage(translations, html) {
-  const referencedKeys = getReferencedTranslationKeys(html);
+function checkTranslationUsage(translations, html, scriptSources) {
+  const referencedKeys = getReferencedTranslationKeys(html, scriptSources);
   const localeKeys = Object.fromEntries(
     Object.entries(translations).map(([locale, messages]) => [
       locale,
@@ -171,10 +173,14 @@ function checkHtmlValidation() {
 }
 
 function checkJavaScriptSyntax() {
-  childProcess.execFileSync(process.execPath, ['--check', translationsPath], {
-    cwd: root,
-    stdio: 'inherit',
-  });
+  fs.readdirSync(scriptsPath)
+    .filter(file => file.endsWith('.js'))
+    .forEach(file => {
+      childProcess.execFileSync(process.execPath, ['--check', path.join(scriptsPath, file)], {
+        cwd: root,
+        stdio: 'inherit',
+      });
+    });
 
   const html = read(indexPath);
   const inlineScripts = [];
@@ -261,10 +267,14 @@ function checkNoJunkFiles() {
 }
 
 const html = read(indexPath);
+const scriptSources = fs
+  .readdirSync(scriptsPath)
+  .filter(file => file.endsWith('.js'))
+  .map(file => read(path.join(scriptsPath, file)));
 const translations = loadTranslations();
 
 run('translation key parity', () => checkTranslationParity(translations));
-run('translation usage coverage', () => checkTranslationUsage(translations, html));
+run('translation usage coverage', () => checkTranslationUsage(translations, html, scriptSources));
 run('translation values', () => checkTranslationValues(translations));
 run('HTML validation', checkHtmlValidation);
 run('JavaScript syntax', checkJavaScriptSyntax);

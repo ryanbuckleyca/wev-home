@@ -1182,18 +1182,16 @@
   </footer>
 
   <script src="scripts/translations.js"></script>
+  <script src="scripts/i18n.js"></script>
   <script>
     const translations = window.wevTranslations;
+    const { applyTranslations, getTranslation } = window.wevI18n;
 
     const supportedLocales = ['en', 'fr'];
     const localeStorageKey = 'wev-home-locale';
     const themeStorageKey = 'theme';
     const themeSwitchDuration = 300;
     let themeSwitchTimeout;
-
-    function getTranslation(locale, key) {
-      return key.split('.').reduce((value, part) => value && value[part], translations[locale]);
-    }
 
     function getInitialLocale() {
       const params = new URLSearchParams(window.location.search);
@@ -1206,35 +1204,10 @@
       return browserLocale;
     }
 
-    function updateLocalizedAttributes(locale, attribute, dataAttribute) {
-      document.querySelectorAll(`[${dataAttribute}]`).forEach(element => {
-        const value = getTranslation(locale, element.getAttribute(dataAttribute));
-        if (value) element.setAttribute(attribute, value);
-      });
-    }
-
     function setLocale(locale, { persist = true, updateUrl = true } = {}) {
-      const messages = translations[locale];
+      const messages = applyTranslations(locale, translations);
       if (!messages) return;
 
-      document.documentElement.lang = locale;
-      document.title = messages.meta.title;
-      document.querySelector('meta[name="description"]').setAttribute('content', messages.meta.description);
-      document.querySelector('meta[property="og:title"]').setAttribute('content', messages.meta.ogTitle);
-      document.querySelector('meta[property="og:description"]').setAttribute('content', messages.meta.ogDescription);
-
-      document.querySelectorAll('[data-i18n]').forEach(element => {
-        const value = getTranslation(locale, element.getAttribute('data-i18n'));
-        if (value) element.textContent = value;
-      });
-
-      document.querySelectorAll('[data-i18n-html]').forEach(element => {
-        const value = getTranslation(locale, element.getAttribute('data-i18n-html'));
-        if (value) element.innerHTML = value;
-      });
-
-      updateLocalizedAttributes(locale, 'aria-label', 'data-i18n-aria-label');
-      updateLocalizedAttributes(locale, 'alt', 'data-i18n-alt');
       updateThemeToggleLabel();
 
       document.querySelectorAll('[data-locale-switcher]').forEach(button => {
