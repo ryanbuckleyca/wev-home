@@ -211,6 +211,10 @@ function checkJavaScriptSyntax() {
   }
 }
 
+function stripAssetQuery(value) {
+  return value.split(/[?#]/, 1)[0];
+}
+
 function checkAssetReferences(html) {
   const assetAttributes = [...html.matchAll(/\s(?:src|href)="([^"]+)"/g)].map(match => match[1]);
   const missing = assetAttributes
@@ -225,7 +229,7 @@ function checkAssetReferences(html) {
         return false;
       }
 
-      return !fs.existsSync(path.join(root, value));
+      return !fs.existsSync(path.join(root, stripAssetQuery(value)));
     })
     .sort();
 
