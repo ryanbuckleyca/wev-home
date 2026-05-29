@@ -43,8 +43,8 @@ function setLocale(locale, { persist = true, updateUrl = true } = {}) {
     button.dataset.currentLocale = locale;
   });
 
-  if (toggle && toggle.getAttribute('aria-expanded') === 'true') {
-    toggle.setAttribute('aria-label', messages.nav.closeMenu);
+  if (mobileNavControls.isOpen()) {
+    mobileNavControls.setLabel(messages.nav.closeMenu);
   }
 
   if (persist) setStoredValue(localeStorageKey, locale);
@@ -56,9 +56,6 @@ function setLocale(locale, { persist = true, updateUrl = true } = {}) {
   }
 }
 
-// ── Mobile nav ────────────────────────────────────────────
-const toggle = document.querySelector('.nav-toggle');
-const links  = document.querySelector('.nav-links');
 const localeSwitchers = document.querySelectorAll('[data-locale-switcher]');
 
 function getCurrentTheme() {
@@ -115,26 +112,39 @@ function initThemeToggle() {
 }
 
 let themeControls = { updateThemeToggleLabel: () => {} };
+let mobileNavControls = { isOpen: () => false, setLabel: () => {} };
 
 function updateThemeToggleLabel() {
   themeControls.updateThemeToggleLabel();
 }
 
-if (toggle && links) {
+function initMobileNav() {
+  const toggle = document.querySelector('.nav-toggle');
+  const links  = document.querySelector('.nav-links');
+
+  if (!toggle || !links) {
+    return { isOpen: () => false };
+  }
+
+  function closeMenu() {
+    links.classList.remove('open');
+    toggle.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', getTranslation(document.documentElement.lang, 'nav.openMenu'));
+  }
+
   toggle.addEventListener('click', () => {
     const open = links.classList.toggle('open');
     toggle.classList.toggle('open', open);
     toggle.setAttribute('aria-expanded', String(open));
     toggle.setAttribute('aria-label', open ? getTranslation(document.documentElement.lang, 'nav.closeMenu') : getTranslation(document.documentElement.lang, 'nav.openMenu'));
   });
-  links.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
-      links.classList.remove('open');
-      toggle.classList.remove('open');
-      toggle.setAttribute('aria-expanded', 'false');
-      toggle.setAttribute('aria-label', getTranslation(document.documentElement.lang, 'nav.openMenu'));
-    });
-  });
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
+  return {
+    isOpen: () => toggle.getAttribute('aria-expanded') === 'true',
+    setLabel: label => toggle.setAttribute('aria-label', label),
+  };
 }
 
 localeSwitchers.forEach(button => {
@@ -144,6 +154,7 @@ localeSwitchers.forEach(button => {
   });
 });
 
+mobileNavControls = initMobileNav();
 themeControls = initThemeToggle();
 setLocale(getInitialLocale(), { persist: false, updateUrl: false });
 
