@@ -1199,7 +1199,6 @@
     const localeStorageKey = 'wev-home-locale';
     const themeStorageKey = 'theme';
     const themeSwitchDuration = 300;
-    let themeSwitchTimeout;
 
     function getStoredValue(key) {
       try {
@@ -1255,41 +1254,64 @@
     const toggle = document.querySelector('.nav-toggle');
     const links  = document.querySelector('.nav-links');
     const localeSwitchers = document.querySelectorAll('[data-locale-switcher]');
-    const themeToggle = document.querySelector('[data-theme-toggle]');
-
-    function getSystemTheme() {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
 
     function getCurrentTheme() {
       return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
     }
 
-    function updateThemeToggleLabel() {
-      if (!themeToggle) return;
-      const nextThemeLabelKey = getCurrentTheme() === 'dark' ? 'theme.switchToLight' : 'theme.switchToDark';
-      themeToggle.setAttribute('aria-label', getTranslation(document.documentElement.lang, nextThemeLabelKey));
-    }
+    function initThemeToggle() {
+      const themeToggle = document.querySelector('[data-theme-toggle]');
+      let themeSwitchTimeout;
 
-    function setTheme(theme, { persist = true } = {}) {
-      const root = document.documentElement;
-      if (theme !== 'dark' && theme !== 'light') return;
-
-      root.classList.add('theme-switching');
-      void document.body.offsetHeight;
-      root.setAttribute('data-theme', theme);
-      updateThemeToggleLabel();
-
-      if (persist) {
-        setStoredValue(themeStorageKey, theme);
-        document.cookie = `theme=${theme};path=/;max-age=31536000;SameSite=Lax`;
+      function updateThemeToggleLabel() {
+        if (!themeToggle) return;
+        const nextThemeLabelKey = getCurrentTheme() === 'dark' ? 'theme.switchToLight' : 'theme.switchToDark';
+        themeToggle.setAttribute('aria-label', getTranslation(document.documentElement.lang, nextThemeLabelKey));
       }
 
-      if (themeSwitchTimeout) window.clearTimeout(themeSwitchTimeout);
-      themeSwitchTimeout = window.setTimeout(() => {
-        root.classList.remove('theme-switching');
-        themeSwitchTimeout = undefined;
-      }, themeSwitchDuration);
+      function setTheme(theme, { persist = true } = {}) {
+        const root = document.documentElement;
+        if (theme !== 'dark' && theme !== 'light') return;
+
+        root.classList.add('theme-switching');
+        void document.body.offsetHeight;
+        root.setAttribute('data-theme', theme);
+        updateThemeToggleLabel();
+
+        if (persist) {
+          setStoredValue(themeStorageKey, theme);
+          document.cookie = `theme=${theme};path=/;max-age=31536000;SameSite=Lax`;
+        }
+
+        if (themeSwitchTimeout) window.clearTimeout(themeSwitchTimeout);
+        themeSwitchTimeout = window.setTimeout(() => {
+          root.classList.remove('theme-switching');
+          themeSwitchTimeout = undefined;
+        }, themeSwitchDuration);
+      }
+
+      if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+          setTheme(getCurrentTheme() === 'dark' ? 'light' : 'dark');
+        });
+      }
+
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+        if (getStoredValue(themeStorageKey)) return;
+        setTheme(event.matches ? 'dark' : 'light', { persist: false });
+      });
+
+      updateThemeToggleLabel();
+
+      return {
+        updateThemeToggleLabel,
+      };
+    }
+
+    let themeControls = { updateThemeToggleLabel: () => {} };
+
+    function updateThemeToggleLabel() {
+      themeControls.updateThemeToggleLabel();
     }
 
     if (toggle && links) {
@@ -1316,19 +1338,8 @@
       });
     });
 
+    themeControls = initThemeToggle();
     setLocale(getInitialLocale(), { persist: false, updateUrl: false });
-
-    if (themeToggle) {
-      themeToggle.addEventListener('click', () => {
-        setTheme(getCurrentTheme() === 'dark' ? 'light' : 'dark');
-      });
-    }
-
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-      if (getStoredValue(themeStorageKey)) return;
-      setTheme(event.matches ? 'dark' : 'light', { persist: false });
-    });
-    updateThemeToggleLabel();
 
     // ── Scroll animations ─────────────────────────────────────
     const fadeUps = document.querySelectorAll('.fade-up');
