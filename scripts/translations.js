@@ -17,6 +17,8 @@ window.wevTranslations = {
       newsletter: 'Newsletter',
       jobs: 'Job Board',
       contact: 'Contact',
+      theme: 'Site Theme',
+      languageLabel: 'Language',
     },
     language: {
       toggle: 'Toggle language',
@@ -112,7 +114,9 @@ window.wevTranslations = {
       about: 'À propos',
       newsletter: 'Infolettre',
       jobs: 'Babillard',
-      contact: 'Contact',
+      contact: 'Nous joindre',
+      theme: 'Thème du site',
+      languageLabel: 'Langue',
     },
     language: {
       toggle: 'Changer de langue',

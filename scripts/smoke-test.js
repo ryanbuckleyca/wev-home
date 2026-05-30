@@ -77,6 +77,10 @@ function testLanguageToggle() {
   assert(document.querySelector('[data-locale-switcher]').dataset.currentLocale === 'fr', 'Language switcher state did not update.');
   assert(location.search === '?lang=fr', 'Language toggle did not update the URL.');
   assert(localStorage.getItem('wev-home-locale') === 'fr', 'Language preference was not persisted.');
+  assert(
+    document.querySelector('.nav-panel-contact').textContent === 'Nous joindre',
+    'Nav contact link did not translate.',
+  );
 }
 
 function testThemeToggle() {
@@ -94,15 +98,23 @@ function testMobileNav() {
   const dom = createPage();
   const { document } = dom.window;
   const toggle = document.querySelector('.nav-toggle');
-  const links = document.querySelector('.nav-links');
+  const panel = document.querySelector('.nav-panel');
+  const backdrop = document.querySelector('.nav-backdrop');
 
   click(toggle);
   assert(toggle.getAttribute('aria-expanded') === 'true', 'Mobile nav did not open.');
-  assert(links.classList.contains('open'), 'Mobile nav links did not receive open class.');
+  assert(panel.classList.contains('open'), 'Mobile nav panel did not receive open class.');
+  assert(backdrop.classList.contains('open'), 'Mobile nav backdrop did not receive open class.');
 
-  click(links.querySelector('a[href="#about"]'));
+  click(panel.querySelector('a[href="#about"]'));
   assert(toggle.getAttribute('aria-expanded') === 'false', 'Mobile nav did not close after link click.');
-  assert(!links.classList.contains('open'), 'Mobile nav links stayed open after link click.');
+  assert(!panel.classList.contains('open'), 'Mobile nav panel stayed open after link click.');
+
+  click(toggle);
+  assert(panel.classList.contains('open'), 'Mobile nav panel did not reopen.');
+
+  backdrop.dispatchEvent(new dom.window.MouseEvent('mousedown', { bubbles: true }));
+  assert(!panel.classList.contains('open'), 'Mobile nav did not close after backdrop click.');
 }
 
 function run(name, fn) {

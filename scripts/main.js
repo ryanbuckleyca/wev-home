@@ -150,26 +150,48 @@ function initThemeToggle() {
 
 function initMobileNav() {
   const toggle = document.querySelector('.nav-toggle');
-  const links  = document.querySelector('.nav-links');
+  const panel = document.querySelector('.nav-panel');
+  const backdrop = document.querySelector('.nav-backdrop');
 
-  if (!toggle || !links) {
+  if (!toggle || !panel) {
     return { isOpen: () => false, setLabel: () => {} };
   }
 
+  function setOpen(open) {
+    panel.classList.toggle('open', open);
+    toggle.classList.toggle('open', open);
+    if (backdrop) {
+      backdrop.classList.toggle('open', open);
+      backdrop.setAttribute('aria-hidden', String(!open));
+    }
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute(
+      'aria-label',
+      open
+        ? getTranslation(document.documentElement.lang, 'nav.closeMenu')
+        : getTranslation(document.documentElement.lang, 'nav.openMenu')
+    );
+  }
+
   function closeMenu() {
-    links.classList.remove('open');
-    toggle.classList.remove('open');
-    toggle.setAttribute('aria-expanded', 'false');
-    toggle.setAttribute('aria-label', getTranslation(document.documentElement.lang, 'nav.openMenu'));
+    setOpen(false);
   }
 
   toggle.addEventListener('click', () => {
-    const open = links.classList.toggle('open');
-    toggle.classList.toggle('open', open);
-    toggle.setAttribute('aria-expanded', String(open));
-    toggle.setAttribute('aria-label', open ? getTranslation(document.documentElement.lang, 'nav.closeMenu') : getTranslation(document.documentElement.lang, 'nav.openMenu'));
+    setOpen(!panel.classList.contains('open'));
   });
-  links.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
+  if (backdrop) {
+    backdrop.addEventListener('mousedown', closeMenu);
+  }
+
+  document.addEventListener('mousedown', (event) => {
+    if (!panel.classList.contains('open')) return;
+    if (panel.contains(event.target) || toggle.contains(event.target)) return;
+    closeMenu();
+  });
+
+  panel.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
 
   return {
     isOpen: () => toggle.getAttribute('aria-expanded') === 'true',
