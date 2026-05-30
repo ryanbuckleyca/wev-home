@@ -191,6 +191,14 @@ function initMobileNav() {
     closeMenu();
   });
 
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (panel.classList.contains('open')) closeMenu();
+    },
+    { passive: true }
+  );
+
   panel.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
 
   return {

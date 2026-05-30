@@ -115,6 +115,10 @@ function testMobileNav() {
 
   backdrop.dispatchEvent(new dom.window.MouseEvent('mousedown', { bubbles: true }));
   assert(!panel.classList.contains('open'), 'Mobile nav did not close after backdrop click.');
+
+  click(toggle);
+  dom.window.dispatchEvent(new dom.window.Event('scroll'));
+  assert(!panel.classList.contains('open'), 'Mobile nav did not close after scroll.');
 }
 
 function run(name, fn) {
