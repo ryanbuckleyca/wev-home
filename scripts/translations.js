@@ -81,7 +81,9 @@ window.wevTranslations = {
       infoNewsletter: 'Newsletter',
       infoJobs: 'Job Board',
       infoSocials: 'Socials',
-      socialsValue: 'Reluctantly coming soon...',
+      socialInstagram: 'Instagram, opens in a new tab',
+      socialLinkedin: 'LinkedIn, opens in a new tab',
+      socialFacebook: 'Facebook, opens in a new tab',
       rightNote:
         "We're a small collective. We read every message and respond to all inquiries, typically within a few business days.",
     },
@@ -179,7 +181,9 @@ window.wevTranslations = {
       infoNewsletter: 'Infolettre',
       infoJobs: 'Babillard',
       infoSocials: 'Réseaux sociaux',
-      socialsValue: 'À venir, à contrecœur...',
+      socialInstagram: 'Instagram, ouvre dans un nouvel onglet',
+      socialLinkedin: 'LinkedIn, ouvre dans un nouvel onglet',
+      socialFacebook: 'Facebook, ouvre dans un nouvel onglet',
       rightNote:
         'Nous sommes un petit collectif. Nous lisons chaque message et répondons à toutes les demandes, généralement en quelques jours ouvrables.',
     },
