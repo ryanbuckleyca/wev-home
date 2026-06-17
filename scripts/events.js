@@ -22,7 +22,7 @@ window.wevEvents = [
     meta_fr: 'Mensuel · Artistes, créatifs, coopérateurs et travailleurs de l’économie sociale bienvenus',
     cta_label: 'Drop in',
     cta_label_fr: 'Passer nous voir',
-    cta_url: 'https://...',
+    cta_url: '#',
     active: true,
   },
 ];
