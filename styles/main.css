@@ -703,6 +703,71 @@ html.theme-switching *::after {
   line-height: 1.7;
 }
 
+/* ─── Events ───────────────────────────────────────────────── */
+#events { scroll-margin-top: var(--nav-height); }
+
+.join-headline {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--foreground);
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+}
+.join-intro {
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--muted-foreground);
+  line-height: 1.75;
+  margin-bottom: 2.5rem;
+  max-width: 42rem;
+}
+.join-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  list-style: none;
+}
+@media (max-width: 700px) {
+  .join-grid { grid-template-columns: 1fr; }
+}
+.event-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+[data-theme='dark'] .event-card {
+  background: var(--background);
+}
+.event-kicker {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--brand-accent-strong);
+}
+.event-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--foreground);
+  line-height: 1.3;
+}
+.event-meta {
+  font-size: 0.9375rem;
+  font-weight: 300;
+  color: var(--muted-foreground);
+  line-height: 1.7;
+  flex-grow: 1;
+}
+.event-cta {
+  margin-top: 0.5rem;
+}
+
 /* ─── Contact ──────────────────────────────────────────────── */
 #contact { scroll-margin-top: var(--nav-height); }
 

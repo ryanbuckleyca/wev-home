@@ -16,6 +16,7 @@ window.wevTranslations = {
       about: 'About',
       newsletter: 'Newsletter',
       jobs: 'Job Board',
+      events: 'Events',
       contact: 'Contact',
       theme: 'Site Theme',
       languageLabel: 'Language',
@@ -68,6 +69,11 @@ window.wevTranslations = {
       cta: 'Visit the job board',
       ctaLabel: 'Visit the job board, opens in a new tab',
     },
+    join: {
+      eyebrow: 'Get involved',
+      heading: 'Upcoming <span class="teal">events</span>.',
+      intro: 'Programs and recurring gatherings you can plug into.',
+    },
     contact: {
       eyebrow: 'Get in touch',
       heading: "Let's build something together.",
@@ -116,6 +122,7 @@ window.wevTranslations = {
       about: 'À propos',
       newsletter: 'Infolettre',
       jobs: 'Babillard',
+      events: 'Évènements',
       contact: 'Nous joindre',
       theme: 'Thème du site',
       languageLabel: 'Langue',
@@ -167,6 +174,11 @@ window.wevTranslations = {
         "Le Bulletin wev rassemble des offres dans l'économie sociale et solidaire afin d'aider les personnes en recherche d'emploi à découvrir un travail qui soutient les gens, la planète et le pouvoir collectif.",
       cta: 'Visiter le babillard',
       ctaLabel: 'Visiter le babillard, ouvre dans un nouvel onglet',
+    },
+    join: {
+      eyebrow: "S'impliquer",
+      heading: 'Évènements à <span class="teal">venir</span>.',
+      intro: 'Des programmes et des rencontres récurrentes auxquels vous joindre.',
     },
     contact: {
       eyebrow: 'Nous joindre',
