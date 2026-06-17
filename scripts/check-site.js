@@ -20,6 +20,7 @@ const allowedHtmlTranslationKeys = new Set([
   'about.heading',
   'about.body',
   'values.heading',
+  'join.heading',
   'contact.emailNote',
 ]);
 
