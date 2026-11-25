@@ -767,6 +767,12 @@ html.theme-switching *::after {
 .event-cta {
   margin-top: 0.5rem;
 }
+.event-card--past {
+  opacity: 0.72;
+}
+.event-card--past .event-kicker {
+  color: var(--muted-foreground);
+}
 
 /* ─── Contact ──────────────────────────────────────────────── */
 #contact { scroll-margin-top: var(--nav-height); }
